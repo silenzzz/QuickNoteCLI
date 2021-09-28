@@ -19,4 +19,12 @@ public class SqlScriptService {
     public String createNote() {
         return parser.parse(SqlScriptName.CREATE_NOTE);
     }
+
+    public String getAllNotes() {
+        return parser.parse(SqlScriptName.GET_ALL_NOTES);
+    }
+
+    public String clearNotesTable() {
+        return parser.parse(SqlScriptName.CLEAR_NOTES_TABLE);
+    }
 }

@@ -7,7 +7,9 @@ public enum SqlScriptName {
 
     CREATE_NOTES_TABLE("Create_Notes_Table.sql"),
     GET_LAST_NOTE("Get_Last_Note.sql"),
-    CREATE_NOTE("Create_Note.sql");
+    CREATE_NOTE("Create_Note.sql"),
+    GET_ALL_NOTES("Get_All_Notes.sql"),
+    CLEAR_NOTES_TABLE("Clear_Notes_Table.sql");
 
     private final String filename;
 
