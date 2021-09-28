@@ -25,7 +25,7 @@ public class SqlScriptFileParser {
             File[] scriptFiles = dir.listFiles();
 
             assert scriptFiles != null;
-            Arrays.stream(scriptFiles).forEach(f -> scripts.put(SqlScriptName.valueOfFileName(f.getName()), f));
+            Arrays.stream(scriptFiles).forEach(f -> scripts.put(SqlScriptName.valueOfFilename(f.getName()), f));
 
         } catch (IOException | AssertionError e) {
             throw new SqlScriptParseException("SQL Script Parse Fail", e);

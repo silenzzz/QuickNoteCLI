@@ -2,7 +2,7 @@ package com.demmage.qnc.args;
 
 import org.apache.commons.cli.Option;
 
-public enum Args {
+public enum CmdArgs {
 
     CREATE_NOTE("n", "note", "Create new note", false),
     NOTE_NAME("N", "name", "Specify note name", true),
@@ -15,7 +15,7 @@ public enum Args {
     private final String description;
     private final boolean hasArg;
 
-    Args(String opt, String longOpt, String description, boolean hasArg) {
+    CmdArgs(String opt, String longOpt, String description, boolean hasArg) {
         this.opt = opt;
         this.longOpt = longOpt;
         this.description = description;

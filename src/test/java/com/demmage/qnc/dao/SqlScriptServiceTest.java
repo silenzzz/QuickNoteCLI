@@ -1,7 +1,7 @@
 package com.demmage.qnc.dao;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SqlScriptServiceTest {
 
@@ -16,8 +16,8 @@ public class SqlScriptServiceTest {
                 "    hash    varchar(255),\n" +
                 "    content varchar(9999)\n" +
                 ");";
-        final String actual = service.getCreateNotesTableQuery();
+        final String actual = service.createNotesTable();
 
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 }

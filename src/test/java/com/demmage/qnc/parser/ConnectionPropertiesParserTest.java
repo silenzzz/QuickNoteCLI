@@ -2,8 +2,8 @@ package com.demmage.qnc.parser;
 
 import com.demmage.qnc.parser.entities.ConnectionProperties;
 import lombok.SneakyThrows;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ConnectionPropertiesParserTest {
 
@@ -15,6 +15,6 @@ public class ConnectionPropertiesParserTest {
         final ConnectionProperties expected = new ConnectionProperties("jdbc:h2:file:C:/qnc/db", "", "", "org.h2.Driver");
         final ConnectionProperties actual = parser.getProperties();
 
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 }

@@ -1,6 +1,6 @@
 package com.demmage.qnc;
 
-import com.demmage.qnc.args.Args;
+import com.demmage.qnc.args.CmdArgs;
 import com.demmage.qnc.service.NoteService;
 import org.apache.commons.cli.*;
 
@@ -10,11 +10,11 @@ public class Main {
     private static final NoteService service = new NoteService();
 
     static {
-        options.addOption(Args.CREATE_NOTE.toOption());
-        options.addOption(Args.NOTE_NAME.toOption());
-        options.addOption(Args.APPEND_LAST.toOption());
-        options.addOption(Args.NOTE_LIST.toOption());
-        options.addOption(Args.INTERACTIVE_LIST.toOption());
+        options.addOption(CmdArgs.CREATE_NOTE.toOption());
+        options.addOption(CmdArgs.NOTE_NAME.toOption());
+        options.addOption(CmdArgs.APPEND_LAST.toOption());
+        options.addOption(CmdArgs.NOTE_LIST.toOption());
+        options.addOption(CmdArgs.INTERACTIVE_LIST.toOption());
     }
 
     public static void main(String[] args) throws ParseException {
