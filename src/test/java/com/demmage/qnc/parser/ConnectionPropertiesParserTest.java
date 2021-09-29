@@ -5,13 +5,13 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ConnectionPropertiesParserTest {
+class ConnectionPropertiesParserTest {
 
     private final ConnectionPropertiesParser parser = new ConnectionPropertiesParser();
 
     @SneakyThrows
     @Test
-    public void shouldParseProperties() {
+    void shouldParseProperties() {
         final ConnectionProperties expected = new ConnectionProperties("jdbc:h2:file:C:/qnc/db", "", "", "org.h2.Driver");
         final ConnectionProperties actual = parser.getProperties();
 

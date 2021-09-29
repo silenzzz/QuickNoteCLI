@@ -1,7 +1,7 @@
 package com.demmage.qnc.parser;
 
-import com.demmage.qnc.parser.constants.SqlScriptName;
-import com.demmage.qnc.parser.exception.SqlScriptParseException;
+import com.demmage.qnc.parser.constants.SQLScript;
+import com.demmage.qnc.parser.exception.SQLScriptParseException;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -10,11 +10,11 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.*;
 
-public class SqlScriptFileParser {
+public class SQLScriptFileParser {
 
-    private final EnumMap<SqlScriptName, File> scripts = new EnumMap<>(SqlScriptName.class);
+    private final EnumMap<SQLScript, File> scripts = new EnumMap<>(SQLScript.class);
 
-    public SqlScriptFileParser() {
+    public SQLScriptFileParser() {
 
         try {
             Enumeration<URL> urls = getClass().getClassLoader().getResources("sql");
@@ -25,15 +25,15 @@ public class SqlScriptFileParser {
             File[] scriptFiles = dir.listFiles();
 
             assert scriptFiles != null;
-            Arrays.stream(scriptFiles).forEach(f -> scripts.put(SqlScriptName.valueOfFilename(f.getName()), f));
+            Arrays.stream(scriptFiles).forEach(f -> scripts.put(SQLScript.valueOfFilename(f.getName()), f));
 
         } catch (IOException | AssertionError e) {
-            throw new SqlScriptParseException("SQL Script Parse Fail", e);
+            throw new SQLScriptParseException("SQL Script Parse Fail", e);
         }
     }
 
     @SneakyThrows
-    public String parse(SqlScriptName name) {
+    public String parse(SQLScript name) {
         return String.join("\n", Files.readAllLines(scripts.get(name).toPath()));
     }
 }

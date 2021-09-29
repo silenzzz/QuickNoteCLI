@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class NoteDao {
+public class NoteDAO {
 
     private final Connection connection;
-    private final SqlScriptService scriptService = new SqlScriptService();
+    private final SQLScriptService scriptService = new SQLScriptService();
 
-    public NoteDao(ConnectionProperties properties) {
+    public NoteDAO(ConnectionProperties properties) {
         try {
             Class.forName(properties.getDriver());
             connection = DriverManager.getConnection(properties.getUrl(),
@@ -40,6 +40,20 @@ public class NoteDao {
         log.info("Note created");
     }
 
+    public void appendLastNote(String newContent) {
+        Note note = getLastNote();
+        final String oldContent = note.getContent();
+
+        execute(scriptService.appendLastNote(), false, oldContent + "\n" + newContent, note.getName());
+    }
+
+    public void renameLastNote(String newName) {
+        Note note = getLastNote();
+        final String oldName = note.getName();
+
+        execute(scriptService.renameLastNote(), false, newName, oldName);
+    }
+
     public Note getLastNote() {
         log.info("Retrieving last note");
         ResultSet result = execute(scriptService.getLastNoteQuery(), true);
@@ -52,7 +66,9 @@ public class NoteDao {
     }
 
     public void clearNotes() {
+        log.info("Clearing notes table");
         execute(scriptService.clearNotesTable(), false);
+        log.info("Notes table cleared");
     }
 
     private ResultSet execute(final String sql, boolean query, Object... params) {
@@ -84,7 +100,6 @@ public class NoteDao {
             while (resultSet.next()) {
                 Note note = new Note();
 
-                //resultSet.next();
                 note.setName(resultSet.getString("name"));
                 note.setHash(resultSet.getString("hash"));
                 note.setContent(resultSet.getString("content"));

@@ -1,6 +1,6 @@
 package com.demmage.qnc.parser;
 
-import com.demmage.qnc.parser.constants.SqlScriptName;
+import com.demmage.qnc.parser.constants.SQLScript;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
 
-public class SqlScriptFileParserTest {
+class SQLScriptFileParserTest {
 
-    private final SqlScriptFileParser parser = new SqlScriptFileParser();
+    private final SQLScriptFileParser parser = new SQLScriptFileParser();
 
     @SneakyThrows
     private String getFileContent(String filename) {
@@ -22,9 +22,9 @@ public class SqlScriptFileParserTest {
 
     @Test
     @SneakyThrows
-    public void shouldParseScriptFiles() {
+    void shouldParseScriptFiles() {
         final String expected = getFileContent("Create_Notes_Table.sql");
-        final String actual = parser.parse(SqlScriptName.CREATE_NOTES_TABLE);
+        final String actual = parser.parse(SQLScript.CREATE_NOTES_TABLE);
 
         Assertions.assertEquals(expected, actual);
     }
