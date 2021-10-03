@@ -1,6 +1,5 @@
 package com.demmage.qnc.editor;
 
-import com.demmage.qnc.util.Environment;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -12,15 +11,10 @@ import java.util.concurrent.TimeUnit;
 public class NanoEditor extends Editor {
 
     @Override
-    public boolean installed() { //NOSONAR
+    public boolean installed() {
         try {
-            Process process;
-            if (Environment.IS_WINDOWS) {
-                process = Runtime.getRuntime().exec("nano");
-            } else {
-                process = Runtime.getRuntime().exec("bash nano");
-            }
-            boolean installed = process.waitFor(2, TimeUnit.SECONDS); //NOSONAR
+            Process process = new ProcessBuilder("nano").inheritIO().start();
+            boolean installed = process.waitFor(2, TimeUnit.SECONDS);
             process.destroy();
             return installed;
         } catch (IOException | InterruptedException ignored) { //NOSONAR
@@ -42,12 +36,7 @@ public class NanoEditor extends Editor {
     @SneakyThrows
     @Override
     protected void startProcess(String absolutePath) {
-        Process process;
-        if (Environment.IS_WINDOWS) {
-            process = new ProcessBuilder("nano", absolutePath).inheritIO().start();
-        } else {
-            process = new ProcessBuilder("bash", "chmod +x", "nano", absolutePath).inheritIO().start();
-        }
+        Process process = new ProcessBuilder("nano", absolutePath).inheritIO().start();
         process.waitFor();
     }
 }

@@ -16,6 +16,7 @@ public class Main {
     private static final Options options = new Options();
 
     private static final NoteService noteService = new NoteService();
+
     private static final Editor nano = new NanoEditor();
 
     private static final NoteOutputFormatter noteFormatter = new NoteOutputFormatter();
@@ -97,10 +98,14 @@ public class Main {
         if (nano.installed()) {
             return nano.getContent();
         } else {
-            System.out.println("Nano not installed");
-            System.exit(0);
+            printEditorNotInstalled("Nano");
             return "STUB";
         }
+    }
+
+    private static void printEditorNotInstalled(String name) {
+        System.out.println(name + " not installed");
+        System.exit(0);
     }
 
     private static void printHelp() {
