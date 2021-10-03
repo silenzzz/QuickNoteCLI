@@ -72,7 +72,7 @@ public class Main {
             printHelp();
         } else if (cmd.hasOption(RENAME_LAST_NOTE.getOpt())) {
             noteService.renameLast(cmd.getOptionValue(RENAME_LAST_NOTE.getOpt()));
-        } else if (cmd.hasOption(DELETE_LAST_NOTE.getOpt())) {
+        } else if (cmd.hasOption(DELETE_LAST_NOTE.getOpt()) && confirmAction()) {
             noteService.deleteLast();
         } else if (cmd.hasOption(CLEAR_ALL_NOTES.getOpt()) && confirmAction()) {
             noteService.deleteAll();
