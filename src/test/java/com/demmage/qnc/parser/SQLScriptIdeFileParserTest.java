@@ -9,15 +9,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Objects;
 
 class SQLScriptIdeFileParserTest {
 
-    private final SQLScriptFileParser parser = new SQLScriptIDEFileParser();
+    private static final SQLScriptFileParser parser = new SQLScriptIDEFileParser();
 
     @SneakyThrows
     private String getFileContent(String filename) {
         return String.join("\n", Files.readAllLines(
-                new File(getClass().getClassLoader().getResource("sql/" + filename)
+                new File(Objects.requireNonNull(getClass().getClassLoader().getResource("sql/" + filename))
                         .toURI()).toPath()));
     }
 

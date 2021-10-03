@@ -16,7 +16,7 @@ public enum CmdArgs {
     // TODO
     INTERACTIVE_LIST("i", "interactive", "Interactive notes list", false),
 
-    NANO("N", "nano", "Open in nano editor (If installed", false),
+    NANO("N", "nano", "Open in nano editor (If installed)", false),
 
     HELP("h", "help", "Print help", false),
     ABOUT("a", "about", "About", false),

@@ -1,8 +1,10 @@
 package com.demmage.qnc.editor;
 
-public interface Editor {
+public abstract class Editor {
 
-    boolean installed();
+    public abstract boolean installed();
 
-    String getContent();
+    public abstract String getContent();
+
+    protected abstract void startProcess(String absolutePath);
 }

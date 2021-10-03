@@ -121,7 +121,7 @@ public class NoteDAO {
             } else {
                 statement.execute();
                 log.debug("Non-Query statement executed");
-                return null;
+                return null; //NOSONAR
             }
         } catch (SQLException e) {
             log.error("SQL Execution Fail", e);

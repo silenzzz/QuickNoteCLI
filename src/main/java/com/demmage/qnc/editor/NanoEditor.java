@@ -1,5 +1,6 @@
 package com.demmage.qnc.editor;
 
+import com.demmage.qnc.util.Environment;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -8,16 +9,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
-public class NanoEditor implements Editor {
+public class NanoEditor extends Editor {
 
     @Override
-    public boolean installed() {
+    public boolean installed() { //NOSONAR
         try {
-            Process process = Runtime.getRuntime().exec("nano");
-            boolean installed = process.waitFor(2, TimeUnit.SECONDS);
+            Process process = null;
+            if (Environment.IS_WINDOWS) {
+                Runtime.getRuntime().exec("nano");
+            } else {
+                Runtime.getRuntime().exec("bash nano");
+            }
+            boolean installed = process.waitFor(2, TimeUnit.SECONDS); //NOSONAR
             process.destroy();
             return installed;
-        } catch (IOException | InterruptedException ignored) {
+        } catch (IOException | InterruptedException ignored) { //NOSONAR
             return false;
         }
     }
@@ -28,9 +34,20 @@ public class NanoEditor implements Editor {
         File file = File.createTempFile("tmp", null);
         file.deleteOnExit();
 
-        Process process = new ProcessBuilder("nano", file.getAbsolutePath()).inheritIO().start();
-        process.waitFor();
+        startProcess(file.getAbsolutePath());
 
         return String.join("\n", Files.readAllLines(Paths.get(file.getPath())));
+    }
+
+    @SneakyThrows
+    @Override
+    protected void startProcess(String absolutePath) {
+        Process process;
+        if (Environment.IS_WINDOWS) {
+            process = new ProcessBuilder("nano", absolutePath).inheritIO().start();
+        } else {
+            process = new ProcessBuilder("bash", "nano", absolutePath).inheritIO().start();
+        }
+        process.waitFor();
     }
 }
