@@ -100,6 +100,10 @@ public class NoteService {
     }
 
     public void renameLast(String newName) {
+        if (lastCached == null) {
+            lastCached = dao.getLastNote();
+        }
+
         lastCached.setName(newName);
         dao.renameLastNote(newName);
     }
