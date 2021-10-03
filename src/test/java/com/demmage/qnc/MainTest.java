@@ -1,5 +1,6 @@
 package com.demmage.qnc;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 
@@ -10,6 +11,7 @@ class MainTest {
 
     //@Test
     @SneakyThrows
+    @Ignore
     void shouldStartH2Server() {
         // TODO: 03.10.2021 Rewrite
         new Thread(() ->

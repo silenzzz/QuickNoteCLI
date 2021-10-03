@@ -2,7 +2,7 @@ package com.demmage.qnc.util;
 
 public enum Constants {
 
-    NOTE_NAME_FORMAT("HH:mm");
+    NOTE_NAME_FORMAT("HH:mm.ss");
 
     private final String param;
 

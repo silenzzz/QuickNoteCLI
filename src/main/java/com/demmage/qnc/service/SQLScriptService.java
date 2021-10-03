@@ -1,4 +1,4 @@
-package com.demmage.qnc.dao;
+package com.demmage.qnc.service;
 
 import com.demmage.qnc.parser.sql.SQLScriptFileParser;
 import com.demmage.qnc.parser.sql.SQLScriptIDEFileParser;

@@ -4,7 +4,7 @@ import com.demmage.qnc.dao.exception.DaoException;
 import com.demmage.qnc.dao.exception.DaoParamException;
 import com.demmage.qnc.domain.Note;
 import com.demmage.qnc.parser.connection.ConnectionProperties;
-import com.sun.istack.internal.Nullable;
+import com.demmage.qnc.service.SQLScriptService;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -89,7 +89,6 @@ public class NoteDAO {
         return getAllNotes().size();
     }
 
-    @Nullable
     private List<Map<String, Object>> execute(final String sql, boolean query, Object... params) {
         log.debug("Performing sql request with args: {}", params);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

@@ -12,9 +12,14 @@ public enum CmdArgs {
     CLEAR_ALL_NOTES("c", "clear", "Clear all notes", false),
 
     NOTE_LIST("l", "list", "Print note list", false),
+
+    // TODO
     INTERACTIVE_LIST("i", "interactive", "Interactive notes list", false),
 
+    NANO("N", "nano", "Open in nano editor (If installed", false),
+
     HELP("h", "help", "Print help", false),
+    ABOUT("a", "about", "About", false),
 
     START_DB_SERVER("s", "dbs", "Start DB server", false);
 

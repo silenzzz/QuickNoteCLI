@@ -15,7 +15,7 @@ public class NoteOutputFormatter {
         final int[] i = {1};
         notes.forEach(n -> {
             String content = n.getContent();
-            int subContentEnd = Math.min(content.length(), 15);
+            int subContentEnd = Math.min(content.length(), 5);
 
             result.append(i[0]).append(". | ").append(n.getHash(), 0, 5)
                     .append(" | ").append(n.getName()).append(" | ").append(n.getCreated().toString(), 0, 16)
