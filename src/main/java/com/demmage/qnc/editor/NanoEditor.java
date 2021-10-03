@@ -46,7 +46,7 @@ public class NanoEditor extends Editor {
         if (Environment.IS_WINDOWS) {
             process = new ProcessBuilder("nano", absolutePath).inheritIO().start();
         } else {
-            process = new ProcessBuilder("bash", "nano", absolutePath).inheritIO().start();
+            process = new ProcessBuilder("bash", "chmod +x", "nano", absolutePath).inheritIO().start();
         }
         process.waitFor();
     }
