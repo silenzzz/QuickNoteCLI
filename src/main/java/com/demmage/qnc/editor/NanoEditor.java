@@ -15,7 +15,7 @@ public class NanoEditor extends Editor {
     public boolean installed() {
         try {
             Process process;
-            if (!OS.IS_WINDOWS) {
+            if (OS.IS_WINDOWS) {
                 process = new ProcessBuilder("nano").start();
             } else {
                 process = Runtime.getRuntime().exec("bash nano");

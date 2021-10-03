@@ -59,7 +59,7 @@ public class Main {
         // TODO: 03.10.2021 Mess
         if (cmd.hasOption(START_DB_SERVER.getOpt())) {
             noteService.startH2Server();
-        } else if (cmd.hasOption(NANO.getOpt()) && !cmd.hasOption(APPEND_LAST_NOTE.getOpt())) {
+        } else if (cmd.hasOption(NANO.getOpt()) && !cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && !cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
             noteService.createNew(getNanoContentInput());
         } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt())) {
             noteService.appendToLast(getNoteContentInput());
@@ -77,13 +77,13 @@ public class Main {
             noteService.deleteLast();
         } else if (cmd.hasOption(CLEAR_ALL_NOTES.getOpt()) && confirmAction()) {
             noteService.deleteAll();
-        } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
-            String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
-            String content = getNoteContentInput();
-            noteService.createNew(name, content);
         } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt()) && cmd.hasOption(NANO.getOpt())) {
             String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
             String content = getNanoContentInput();
+            noteService.createNew(name, content);
+        } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
+            String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
+            String content = getNoteContentInput();
             noteService.createNew(name, content);
         } else if (cmd.hasOption(ABOUT.getOpt())) {
             printAbout();
