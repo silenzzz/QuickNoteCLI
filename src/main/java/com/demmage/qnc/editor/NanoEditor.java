@@ -13,7 +13,7 @@ public class NanoEditor extends Editor {
     @Override
     public boolean installed() {
         try {
-            Process process = new ProcessBuilder("nano").inheritIO().start();
+            Process process = new ProcessBuilder("nano").start();
             boolean installed = process.waitFor(2, TimeUnit.SECONDS);
             process.destroy();
             return installed;
