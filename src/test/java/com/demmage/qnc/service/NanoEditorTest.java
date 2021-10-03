@@ -13,5 +13,4 @@ class NanoEditorTest {
             service.getContent();
         }
     }
-
 }

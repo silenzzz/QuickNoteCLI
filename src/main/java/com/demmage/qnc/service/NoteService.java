@@ -34,7 +34,6 @@ public class NoteService {
     }
 
     private void create(String name, String content) {
-        content = content.substring(0, content.length() - 2);
         Note note = new Note(name == null ? nameGenerator.generate() : name, content, Timestamp.from(Instant.now()), hashCalc.calculateMd5(content));
         dao.createNewNote(note);
         lastCached = note;
