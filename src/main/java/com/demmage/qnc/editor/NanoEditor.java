@@ -14,11 +14,11 @@ public class NanoEditor extends Editor {
     @Override
     public boolean installed() { //NOSONAR
         try {
-            Process process = null;
+            Process process;
             if (Environment.IS_WINDOWS) {
-                Runtime.getRuntime().exec("nano");
+                process = Runtime.getRuntime().exec("nano");
             } else {
-                Runtime.getRuntime().exec("bash nano");
+                process = Runtime.getRuntime().exec("bash nano");
             }
             boolean installed = process.waitFor(2, TimeUnit.SECONDS); //NOSONAR
             process.destroy();
