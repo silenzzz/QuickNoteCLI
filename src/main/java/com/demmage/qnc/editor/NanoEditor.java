@@ -18,7 +18,7 @@ public class NanoEditor extends Editor {
             if (OS.IS_WINDOWS) {
                 process = new ProcessBuilder("nano").start();
             } else {
-                process = Runtime.getRuntime().exec("bash nano");
+                process = new ProcessBuilder("bash", "nano").start();
             }
             return process.waitFor(2, TimeUnit.SECONDS);
         } catch (IOException | InterruptedException ignored) { //NOSONAR

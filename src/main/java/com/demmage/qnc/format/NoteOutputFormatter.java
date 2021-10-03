@@ -27,10 +27,10 @@ public class NoteOutputFormatter {
     }
 
     public String format(Note note) {
-        return new StringBuilder().append(HEADER).append("\n")
-                .append(note.getHash(), 0, 5).append(" ")
-                .append(note.getName()).append(" ")
-                .append(note.getCreated().toString(), 0, 16).append("\n\n")
+        return new StringBuilder().append(HEADER).append("\n| ")
+                .append(note.getHash(), 0, 5).append(" | ")
+                .append(note.getName()).append(" | ")
+                .append(note.getCreated().toString(), 0, 16).append(" |\n\n")
                 .append(note.getContent()).toString();
     }
 }
