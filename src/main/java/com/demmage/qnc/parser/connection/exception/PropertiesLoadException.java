@@ -1,4 +1,4 @@
-package com.demmage.qnc.parser.exception;
+package com.demmage.qnc.parser.connection.exception;
 
 public class PropertiesLoadException extends RuntimeException {
     public PropertiesLoadException() {

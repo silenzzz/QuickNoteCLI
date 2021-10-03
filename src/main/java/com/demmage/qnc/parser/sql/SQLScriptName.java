@@ -1,9 +1,9 @@
-package com.demmage.qnc.parser.constants;
+package com.demmage.qnc.parser.sql;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-public enum SQLScript {
+public enum SQLScriptName {
 
     CREATE_NOTES_TABLE("Create_Notes_Table.sql"),
     GET_LAST_NOTE("Get_Last_Note.sql"),
@@ -11,15 +11,16 @@ public enum SQLScript {
     GET_ALL_NOTES("Get_All_Notes.sql"),
     CLEAR_NOTES_TABLE("Clear_Notes_Table.sql"),
     APPEND_LAST_NOTE("Append_Last_Note.sql"),
+    DELETE_NOTE("Delete_Note.sql"),
     RENAME_LAST_NOTE("Rename_Last_Note.sql");
 
     private final String filename;
 
-    SQLScript(String filename) {
+    SQLScriptName(String filename) {
         this.filename = filename;
     }
 
-    public static SQLScript valueOfFilename(String filename) {
+    public static SQLScriptName valueOfFilename(String filename) {
         return Arrays.stream(values()).filter(e -> e.filename.equals(filename)).findFirst().orElseThrow(NoSuchElementException::new);
     }
 

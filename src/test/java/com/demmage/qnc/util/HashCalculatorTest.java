@@ -1,6 +1,5 @@
-package com.demmage.qnc.service;
+package com.demmage.qnc.util;
 
-import com.demmage.qnc.util.HashCalculator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

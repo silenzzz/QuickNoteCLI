@@ -1,4 +1,4 @@
-package com.demmage.qnc.parser.exception;
+package com.demmage.qnc.parser.sql.exception;
 
 public class SQLScriptParseException extends RuntimeException {
 

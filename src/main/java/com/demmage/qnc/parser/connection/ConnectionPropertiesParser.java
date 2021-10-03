@@ -1,13 +1,9 @@
-package com.demmage.qnc.parser;
+package com.demmage.qnc.parser.connection;
 
-import com.demmage.qnc.parser.entities.ConnectionProperties;
-import com.demmage.qnc.parser.exception.PropertiesLoadException;
-import lombok.Cleanup;
+import com.demmage.qnc.parser.connection.exception.PropertiesLoadException;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ConnectionPropertiesParser {
@@ -15,12 +11,9 @@ public class ConnectionPropertiesParser {
     public ConnectionProperties getProperties() {
         Properties properties = new Properties();
 
-        try {
-            File file = new File(getClass().getClassLoader().getResource("db.properties").toURI());
-
-            @Cleanup FileInputStream stream = new FileInputStream(file);
+        try (InputStream stream = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             properties.load(stream);
-        } catch (NullPointerException | URISyntaxException | IOException e) {
+        } catch (NullPointerException | IOException e) {
             throw new PropertiesLoadException("DB Properties Loader Fail", e);
         }
 

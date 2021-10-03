@@ -4,11 +4,19 @@ import org.apache.commons.cli.Option;
 
 public enum CmdArgs {
 
-    CREATE_NOTE("n", "note", "Create new note", false),
-    NOTE_NAME("N", "name", "Specify note name", true),
-    APPEND_LAST("a", "append",  "Append text to the last note", false),
+    NEW_NOTE_NAME("n", "name", "Specify note name", true),
+    RENAME_LAST_NOTE("r", "rename", "Rename last note", true),
+    APPEND_LAST_NOTE("a", "append",  "Append text to the last note", false),
+    PRINT_LAST_NOTE("p", "print", "Print last note text", false),
+    DELETE_LAST_NOTE("d", "delete", "Delete last note", false),
+    CLEAR_ALL_NOTES("c", "clear", "Clear all notes", false),
+
     NOTE_LIST("l", "list", "Print note list", false),
-    INTERACTIVE_LIST("i", "interactive", "Interactive notes list", false);
+    INTERACTIVE_LIST("i", "interactive", "Interactive notes list", false),
+
+    HELP("h", "help", "Print help", false),
+
+    START_DB_SERVER("s", "dbs", "Start DB server", false);
 
     private final String opt;
     private final String longOpt;

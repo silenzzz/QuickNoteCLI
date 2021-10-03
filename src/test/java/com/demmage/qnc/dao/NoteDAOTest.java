@@ -1,7 +1,7 @@
 package com.demmage.qnc.dao;
 
 import com.demmage.qnc.domain.Note;
-import com.demmage.qnc.parser.entities.ConnectionProperties;
+import com.demmage.qnc.parser.connection.ConnectionProperties;
 import org.junit.jupiter.api.*;
 
 import java.sql.Timestamp;
@@ -41,7 +41,7 @@ class NoteDAOTest {
     @Test
     @Order(2)
     void shouldClearNotesTable() {
-        noteDao.clearNotes();
+        noteDao.deleteAllNotes();
 
         final List<Note> notes = noteDao.getAllNotes();
 
@@ -66,7 +66,7 @@ class NoteDAOTest {
         final Note expected = noteDao.getLastNote();
         expected.setContent("CONTENT\n" + append);
 
-        noteDao.appendLastNote(append);
+        noteDao.appendLastNote(append, "HASH");
         final Note actual = noteDao.getLastNote();
 
         Assertions.assertEquals(expected, actual);
@@ -83,5 +83,14 @@ class NoteDAOTest {
         final Note actual = noteDao.getLastNote();
 
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @Order(6)
+    void shouldReturnAllNotesCount() {
+        final int expected = 1;
+        final int actual = noteDao.getAllNotesCount();
+
+        Assertions.assertEquals(expected, noteDao.getAllNotes().size());
     }
 }

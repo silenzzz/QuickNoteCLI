@@ -3,14 +3,17 @@ package com.demmage.qnc.dao;
 import com.demmage.qnc.dao.exception.DaoException;
 import com.demmage.qnc.dao.exception.DaoParamException;
 import com.demmage.qnc.domain.Note;
-import com.demmage.qnc.parser.entities.ConnectionProperties;
+import com.demmage.qnc.parser.connection.ConnectionProperties;
+import com.sun.istack.internal.Nullable;
+import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Method;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+// TODO: 03.10.2021 Do i need logger here...
 @Slf4j
 public class NoteDAO {
 
@@ -34,17 +37,22 @@ public class NoteDAO {
         createTables();
     }
 
-    public void createNewNote(Note note) {
-        log.info("Creating new note");
-        execute(scriptService.createNote(), false, note.getName(), note.getHash(), note.getCreated(), note.getContent());
-        log.info("Note created");
+    @SneakyThrows
+    public void startH2Server() {
+        org.h2.tools.Server.startWebServer(connection);
     }
 
-    public void appendLastNote(String newContent) {
+    public void createNewNote(Note note) {
+        log.debug("Creating new note");
+        execute(scriptService.createNote(), false, note.getName(), note.getHash(), note.getCreated(), note.getContent());
+        log.debug("Note created");
+    }
+
+    public void appendLastNote(String newContent, String newHash) {
         Note note = getLastNote();
         final String oldContent = note.getContent();
 
-        execute(scriptService.appendLastNote(), false, oldContent + "\n" + newContent, note.getName());
+        execute(scriptService.appendLastNote(), false, oldContent + "\n" + newContent, newHash, note.getName());
     }
 
     public void renameLastNote(String newName) {
@@ -55,34 +63,62 @@ public class NoteDAO {
     }
 
     public Note getLastNote() {
-        log.info("Retrieving last note");
-        ResultSet result = execute(scriptService.getLastNoteQuery(), true);
-        log.info("Last note received");
-        return assembly(result).get(0);
+        log.debug("Retrieving last note");
+        List<Map<String, Object>> result = execute(scriptService.getLastNoteQuery(), true);
+        log.debug("Last note received");
+        return assemblyNotes(result).get(0);
+    }
+
+    public void deleteNote(String name) {
+        execute(scriptService.deleteNote(), false, name);
     }
 
     public List<Note> getAllNotes() {
-        return assembly(execute(scriptService.getAllNotes(), true));
+        List<Map<String, Object>> result = execute(scriptService.getAllNotes(), true);
+        return assemblyNotes(result);
     }
 
-    public void clearNotes() {
-        log.info("Clearing notes table");
+    public void deleteAllNotes() {
+        log.debug("Clearing notes table");
         execute(scriptService.clearNotesTable(), false);
-        log.info("Notes table cleared");
+        log.debug("Notes table cleared");
     }
 
-    private ResultSet execute(final String sql, boolean query, Object... params) {
-        log.debug("Executing sql script with args: {}", params);
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+    public int getAllNotesCount() {
+        // TODO: 01.10.2021 SQL Query for notes count
+        return getAllNotes().size();
+    }
+
+    @Nullable
+    private List<Map<String, Object>> execute(final String sql, boolean query, Object... params) {
+        log.debug("Performing sql request with args: {}", params);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (int i = 0; i < params.length; i++) {
                 setClass(params[i], i + 1, statement);
             }
 
             if (query) {
-                ResultSet resultSet = statement.executeQuery(); // Do not inline
-                return resultSet;
+                @Cleanup ResultSet resultSet = statement.executeQuery();
+                ResultSetMetaData resultMeta = resultSet.getMetaData();
+                final int columnCount = resultMeta.getColumnCount();
+
+                String[] columnLabels = new String[columnCount];
+                for (int i = 0; i < columnCount; i++) {
+                    columnLabels[i] = resultMeta.getColumnLabel(i + 1).toLowerCase(Locale.ROOT); // TODO: 03.10.2021 Think about lower case
+                }
+
+                List<Map<String, Object>> result = new ArrayList<>();
+                while (resultSet.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        map.put(columnLabels[i - 1], resultSet.getObject(i));
+                    }
+                    result.add(map);
+                }
+
+                log.debug("Query statement executed");
+                return result;
             } else {
                 statement.execute();
                 log.debug("Non-Query statement executed");
@@ -94,43 +130,40 @@ public class NoteDAO {
         }
     }
 
-    private List<Note> assembly(ResultSet resultSet) {
+    private List<Note> assemblyNotes(List<Map<String, Object>> raw) {
         List<Note> notes = new ArrayList<>();
         try {
-            while (resultSet.next()) {
+            for (Map<String, Object> m : raw) {
                 Note note = new Note();
 
-                note.setName(resultSet.getString("name"));
-                note.setHash(resultSet.getString("hash"));
-                note.setContent(resultSet.getString("content"));
-                note.setCreated(resultSet.getTimestamp("created"));
+                note.setName((String) m.get("name"));
+                note.setHash((String) m.get("hash"));
+                note.setContent((String) m.get("content"));
+                note.setCreated((Timestamp) m.get("created"));
 
                 notes.add(note);
             }
-        } catch (SQLException | NullPointerException e) {
-            throw new DaoException("SQL Execution Fail", e);
+        } catch (NullPointerException e) {
+            throw new DaoException("Query result was empty", e);
         }
         return notes;
     }
 
     @SneakyThrows
-    private <T> PreparedStatement setClass(T t, int index, PreparedStatement statement) {
-        if (t.getClass().equals(String.class)) {
-            statement.setString(index, (String) t);
-        } else if (t.getClass().equals(Integer.class)) {
-            statement.setInt(index, (Integer) t);
-        } else if (t.getClass().equals(Timestamp.class)) {
-            statement.setTimestamp(index, (Timestamp) t);
-        } else {
-            log.error("Param Type Not Supported");
-            throw new DaoParamException("Param Type Not Supported");
-        }
-        return statement;
+    private void setClass(Object o, int index, PreparedStatement statement) {
+        final String className = o.getClass().getSimpleName();
+
+        Method method = Arrays.stream(statement.getClass().getMethods())
+                .filter(m -> m.getName().startsWith("set") && m.getName().endsWith(className))
+                .filter(m -> m.getParameterCount() == 2)
+                .findFirst().orElseThrow(() -> new DaoParamException("Query Param Type Not Supported"));
+
+        method.invoke(statement, index, o);
     }
 
     private void createTables() {
-        log.info("Creating table");
+        log.debug("Creating table");
         execute(scriptService.createNotesTable(), false);
-        log.info("Table created");
+        log.debug("Table created");
     }
 }

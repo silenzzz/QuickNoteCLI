@@ -1,4 +1,4 @@
-package com.demmage.qnc.parser.entities;
+package com.demmage.qnc.parser.connection;
 
 import lombok.Data;
 

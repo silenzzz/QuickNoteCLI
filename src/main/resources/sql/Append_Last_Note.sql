@@ -1,3 +1,4 @@
 UPDATE notes
-SET content = ?
+SET content = ?,
+    hash    = ?
 WHERE name = ?;
