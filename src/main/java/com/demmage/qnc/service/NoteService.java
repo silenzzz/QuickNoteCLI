@@ -77,7 +77,7 @@ public class NoteService {
             return;
         }
 
-        final String content = lastCached.getContent() + "\n" + appendedContent;
+        final String content = lastCached.getContent() != null ? lastCached.getContent() + "\n" + appendedContent : appendedContent;
         final String hash = hashCalc.calculateMd5(content);
 
         lastCached.setContent(content);
