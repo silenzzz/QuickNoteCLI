@@ -13,6 +13,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.7.32</slf4j.version>
+        <wagon.version>3.4.3</wagon.version>
     </properties>
 
     <dependencies>
@@ -87,18 +88,18 @@
                     <dependency>
                         <groupId>org.apache.maven.wagon</groupId>
                         <artifactId>wagon</artifactId>
-                        <version>3.4.3</version>
+                        <version>${wagon.version}</version>
                         <type>pom</type>
                     </dependency>
                     <dependency>
                         <groupId>org.apache.maven.wagon</groupId>
                         <artifactId>wagon-ssh</artifactId>
-                        <version>3.4.3</version>
+                        <version>${wagon.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.apache.maven.wagon</groupId>
                         <artifactId>wagon-ftp</artifactId>
-                        <version>3.4.3</version>
+                        <version>${wagon.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -136,7 +137,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <finalName>QNC-${project.version}</finalName>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
                             <mainClass>com.demmage.qnc.Main</mainClass>
@@ -147,6 +149,7 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
+
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>

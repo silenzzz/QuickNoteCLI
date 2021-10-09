@@ -10,7 +10,6 @@ scripts/garbage/
 cwebp_tmp/
 out/
 signing/*
-dist/build_sign.bat
 
 ### STS ###
 .apt_generated
@@ -32,7 +31,6 @@ dist/build_sign.bat
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
 /nbdist/
 /.nb-gradle/
 build/
