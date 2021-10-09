@@ -8,7 +8,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Data
-public class RequestResult {
+class RequestResult {
 
     private boolean affected;
     private List<Map<String, Object>> queryResult;

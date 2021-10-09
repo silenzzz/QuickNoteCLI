@@ -9,6 +9,8 @@ scripts/garbage/
 *.gz
 cwebp_tmp/
 out/
+signing/*
+dist/build_sign.bat
 
 ### STS ###
 .apt_generated

@@ -85,7 +85,7 @@ public class NoteDAO {
         return getAllNotes().size();
     }
 
-    private RequestResult /*List<Map<String, Object>>*/ execute(final String sql, boolean query, Object... params) {
+    private RequestResult execute(final String sql, boolean query, Object... params) {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (int i = 0; i < params.length; i++) {
@@ -111,11 +111,10 @@ public class NoteDAO {
                     result.add(map);
                 }
 
-                return new RequestResult(true, result);
-                //return result;
+                return new RequestResult(!result.isEmpty(), result);
             } else {
-                return new RequestResult(statement.execute(), null);
-                //return null; //NOSONAR
+                statement.execute();
+                return new RequestResult(statement.getUpdateCount() > 0, null);
             }
         } catch (SQLException e) {
             throw new DaoException("SQL Execution Fail", e);

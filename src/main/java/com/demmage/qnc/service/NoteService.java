@@ -168,7 +168,7 @@ public class NoteService {
         } catch (Exception e) {
             printError(e);
         }
-        return null;
+        return null; //NOSONAR
     }
 
     public int getAllNotesCount() {

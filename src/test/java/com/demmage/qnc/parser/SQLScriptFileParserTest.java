@@ -11,7 +11,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.Objects;
 
-class SQLScriptIdeFileParserTest {
+class SQLScriptFileParserTest {
 
     private static final SQLScriptFileParser parser = new SQLScriptIDEFileParser();
 

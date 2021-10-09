@@ -1,6 +1,5 @@
-package com.demmage.qnc.dao;
+package com.demmage.qnc.service;
 
-import com.demmage.qnc.service.SQLScriptService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
