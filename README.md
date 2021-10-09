@@ -5,11 +5,11 @@
 <!-- MarkdownTOC -->
 
 * [Introduction](#Introduction)
-  * [Usage](#Usage)
-  * [Examples](#Examples)
+    * [Usage](#Usage)
+    * [Examples](#Examples)
 * [Installation](#Installation)
-  * TODO
-  * [Build and install via Maven](#Build-and-install-via-Maven)
+    * TODO
+    * [Build and install via Maven](#Build-and-install-via-Maven)
 
 <!-- /MarkdownTOC -->
 </details>
@@ -47,7 +47,7 @@ Please report issues at https://github.com/DeMmAge/QuickNoteCLI/issues/new
 
 Write **NE** on new line to save note.
 
-* Create simple note with specified name
+* **Create simple note with specified name**
 
 ```shell
 QNC --name shoppint_list
@@ -57,7 +57,7 @@ Beer 15x
 NE
 ```
 
-* Append new content to the last note
+* **Append new content to the last note**
 
 ```shell
 QNC --append
@@ -66,12 +66,13 @@ Orange 10x
 NE
 ```
 
-* Print last created note
+* **Print last created note**
 
+```shell
+QNC --print
+```
 
-    QNC --print
-
-Output:
+**Output:**
 
 ```shell
 | HASH  | NAME          | DATE                      |
@@ -83,12 +84,14 @@ Beer 15x
 Orange 10x
 ```
 
-* Print all notes list
+* **Print all notes list**
 
-    
-    QNC --list
+```shell
+QNC --list
+```
 
-Output:
+**Output:**
+
 ```shell
     ___________________________________________________________________________
     | HASH  | NAME                | DATE                       | SHORT CONTENT |
@@ -105,10 +108,13 @@ Output:
 10. | 88DFE | NOTE 07:31.03       | 2021-10-03 07:31:03.58814  | blablablabla  |
 ```
 
-* Print note by name or index in the list
+* **Print note by name or index in the list**
 
+```shell
+QNC --show test_specified_name
+```
 
-    QNC --show test_specified_name
+**Output:**
 
 ```shell
 ________________________________________________________
@@ -126,12 +132,15 @@ Login: MarkZuckerberg
 Password: qwerty123
 ```
 
-* Create note in nano editor (if installed)
+* **Create note in nano editor _(if installed)_.**
 
-Just write your text in editor, press `CTRL + X`, press `Y`, and press `ENTER`. 
+Just write your text in editor, press `CTRL + X`, press `Y`, and press `ENTER`.
 
+**Output:**
 
-    QNC --name note_in_nano! -N
+```shell
+QNC --name note_in_nano! -N
+```
 
 ```
   GNU nano 2.5.3                                                           File: tmp18278661428566629933.tmp
@@ -162,6 +171,7 @@ Just write your text in editor, press `CTRL + X`, press `Y`, and press `ENTER`.
 ^G Get Help      ^O Write Out     ^W Where Is      ^K Cut Text      ^J Justify       ^C Cur Pos       ^Y Prev Page     M-\ First Line   M-W WhereIs Next ^^ Mark Text     M-} Indent Text  M-U Undo         ^B Back          M-Space Prev Word^A Home
 ^X Exit          ^R Read File     ^\ Replace       ^U Uncut Text    ^T To Spell      ^_ Go To Line    ^V Next Page     M-/ Last Line    M-] To Bracket   M-^ Copy Text    M-{ Unindent TextM-E Redo         ^F Forward       ^Space Next Word ^E End
 ```
+
 <!-- /MarkdownTOC -->
 </details>
 
@@ -172,16 +182,20 @@ Just write your text in editor, press `CTRL + X`, press `Y`, and press `ENTER`.
 ### Build and install via Maven
 
 **Requirements**:
+
 * Maven must be installed on your PC
 * Java 8+
 
 __Windows:__
+
 ```bat
 cd dist/
 build.bat
 install.bat
 ```
+
 __UNIX:__
+
 ```shell
 cd dist/
 build.sh
