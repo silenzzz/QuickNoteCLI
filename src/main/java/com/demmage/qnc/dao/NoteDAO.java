@@ -1,20 +1,18 @@
 package com.demmage.qnc.dao;
 
 import com.demmage.qnc.dao.exception.DaoException;
-import com.demmage.qnc.dao.exception.DaoParamException;
+import com.demmage.qnc.dao.exception.NoteNotFoundException;
+import com.demmage.qnc.dao.exception.RequestUnsupportedParamException;
 import com.demmage.qnc.domain.Note;
 import com.demmage.qnc.parser.connection.ConnectionProperties;
 import com.demmage.qnc.service.SQLScriptService;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.*;
 
-// TODO: 03.10.2021 Do i need logger here...
-@Slf4j
 public class NoteDAO {
 
     private final Connection connection;
@@ -27,10 +25,8 @@ public class NoteDAO {
                     properties.getUser(), properties.getPassword());
 
         } catch (ClassNotFoundException e) {
-            log.error("DB Driver Load Fail", e);
             throw new DaoException("DB Driver Load Fail", e);
         } catch (SQLException e) {
-            log.error("DB Fail", e);
             throw new DaoException("DB Fail", e);
         }
 
@@ -42,46 +38,46 @@ public class NoteDAO {
         org.h2.tools.Server.startWebServer(connection);
     }
 
-    public void createNewNote(Note note) {
-        log.debug("Creating new note");
-        execute(scriptService.createNote(), false, note.getName(), note.getHash(), note.getCreated(), note.getContent());
-        log.debug("Note created");
+    public boolean createNewNote(Note note) {
+        return execute(scriptService.createNote(), false, note.getName(), note.getHash(), note.getCreated(), note.getContent()).isAffected();
     }
 
-    public void appendLastNote(String newContent, String newHash) {
+    public boolean appendLastNote(String newContent, String newHash) {
         Note note = getLastNote();
         final String oldContent = note.getContent();
 
-        execute(scriptService.appendLastNote(), false, oldContent + "\n" + newContent, newHash, note.getName());
+        return execute(scriptService.appendLastNote(), false, oldContent + "\n" + newContent, newHash, note.getName()).isAffected();
     }
 
-    public void renameLastNote(String newName) {
+    public boolean renameLastNote(String newName) {
         Note note = getLastNote();
         final String oldName = note.getName();
 
-        execute(scriptService.renameLastNote(), false, newName, oldName);
+        return execute(scriptService.renameLastNote(), false, newName, oldName).isAffected();
     }
 
     public Note getLastNote() {
-        log.debug("Retrieving last note");
-        List<Map<String, Object>> result = execute(scriptService.getLastNoteQuery(), true);
-        log.debug("Last note received");
-        return assemblyNotes(result).get(0);
+        RequestResult result = execute(scriptService.getLastNoteQuery(), true);
+        return Optional.of(assemblyNotes(result.getQueryResult()).get(0)).orElseThrow(NoteNotFoundException::new);
     }
 
-    public void deleteNote(String name) {
-        execute(scriptService.deleteNote(), false, name);
+    public boolean deleteNote(String name) {
+        return execute(scriptService.deleteNote(), false, name).isAffected();
     }
 
     public List<Note> getAllNotes() {
-        List<Map<String, Object>> result = execute(scriptService.getAllNotes(), true);
-        return assemblyNotes(result);
+        RequestResult result = execute(scriptService.getAllNotes(), true);
+        return assemblyNotes(result.getQueryResult());
     }
 
-    public void deleteAllNotes() {
-        log.debug("Clearing notes table");
-        execute(scriptService.clearNotesTable(), false);
-        log.debug("Notes table cleared");
+    public Note getNoteByName(String name) {
+        Optional<Note> note = Optional.of(assemblyNotes(execute(scriptService.getNoteByName(), true, name).getQueryResult()).get(0));
+
+        return note.orElseThrow(NoteNotFoundException::new);
+    }
+
+    public boolean deleteAllNotes() {
+        return execute(scriptService.clearNotesTable(), false).isAffected();
     }
 
     public int getAllNotesCount() {
@@ -89,8 +85,7 @@ public class NoteDAO {
         return getAllNotes().size();
     }
 
-    private List<Map<String, Object>> execute(final String sql, boolean query, Object... params) {
-        log.debug("Performing sql request with args: {}", params);
+    private RequestResult /*List<Map<String, Object>>*/ execute(final String sql, boolean query, Object... params) {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (int i = 0; i < params.length; i++) {
@@ -116,15 +111,13 @@ public class NoteDAO {
                     result.add(map);
                 }
 
-                log.debug("Query statement executed");
-                return result;
+                return new RequestResult(true, result);
+                //return result;
             } else {
-                statement.execute();
-                log.debug("Non-Query statement executed");
-                return null; //NOSONAR
+                return new RequestResult(statement.execute(), null);
+                //return null; //NOSONAR
             }
         } catch (SQLException e) {
-            log.error("SQL Execution Fail", e);
             throw new DaoException("SQL Execution Fail", e);
         }
     }
@@ -155,14 +148,12 @@ public class NoteDAO {
         Method method = Arrays.stream(statement.getClass().getMethods())
                 .filter(m -> m.getName().startsWith("set") && m.getName().endsWith(className))
                 .filter(m -> m.getParameterCount() == 2)
-                .findFirst().orElseThrow(() -> new DaoParamException("Query Param Type Not Supported"));
+                .findFirst().orElseThrow(() -> new RequestUnsupportedParamException("Query Param Type Not Supported"));
 
         method.invoke(statement, index, o);
     }
 
     private void createTables() {
-        log.debug("Creating table");
         execute(scriptService.createNotesTable(), false);
-        log.debug("Table created");
     }
 }

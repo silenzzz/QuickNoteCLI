@@ -8,7 +8,9 @@ public enum CmdArgs {
     RENAME_LAST_NOTE("r", "rename", "Rename last note", true),
     APPEND_LAST_NOTE("a", "append",  "Append text to the last note", false),
     PRINT_LAST_NOTE("p", "print", "Print last note text", false),
-    DELETE_LAST_NOTE("d", "delete", "Delete last note", false),
+    SHOW_NOTE("s", "show", "Show note by name", true),
+    DELETE_LAST_NOTE("e", "erase", "Erase last note", false),
+    DELETE_NOTE("d", "delete", "Delete note by index or name", true),
     CLEAR_ALL_NOTES("c", "clear", "Clear all notes", false),
 
     NOTE_LIST("l", "list", "Print note list", false),
@@ -21,7 +23,7 @@ public enum CmdArgs {
     HELP("h", "help", "Print help", false),
     ABOUT("a", "about", "About", false),
 
-    START_DB_SERVER("s", "dbs", "Start DB server", false);
+    START_DB_SERVER("S", "dbs", "Start DB server", false);
 
     private final String opt;
     private final String longOpt;

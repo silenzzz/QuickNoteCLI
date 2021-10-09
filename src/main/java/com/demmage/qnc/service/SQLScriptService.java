@@ -47,4 +47,6 @@ public class SQLScriptService {
     public String deleteNote() {
         return parser.get(SQLScriptName.DELETE_NOTE);
     }
+
+    public String getNoteByName() { return parser.get(SQLScriptName.GET_NOTE_BY_NAME); }
 }

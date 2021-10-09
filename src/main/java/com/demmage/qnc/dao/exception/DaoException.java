@@ -1,6 +1,7 @@
 package com.demmage.qnc.dao.exception;
 
 public class DaoException extends RuntimeException {
+
     public DaoException() {
     }
 

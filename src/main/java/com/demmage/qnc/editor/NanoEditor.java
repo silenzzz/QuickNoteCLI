@@ -14,12 +14,7 @@ public class NanoEditor extends Editor {
     @Override
     public boolean installed() {
         try {
-            Process process;
-            if (OS.IS_WINDOWS) {
-                process = new ProcessBuilder("nano").start();
-            } else {
-                process = new ProcessBuilder("bash", "nano").start();
-            }
+            Process process = new ProcessBuilder(OS.IS_WINDOWS ? "nano" : "bash", "nano").start();
             return process.waitFor(2, TimeUnit.SECONDS);
         } catch (IOException | InterruptedException ignored) { //NOSONAR
             return false;

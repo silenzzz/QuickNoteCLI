@@ -1,36 +1,44 @@
 package com.demmage.qnc.format;
 
 import com.demmage.qnc.domain.Note;
+import dnl.utils.text.table.TextTable;
 
 import java.util.List;
 
 public class NoteOutputFormatter {
 
-    private static final String HEADER = "| HASH | NAME | DATE |";
+    private static final String[] LIST_HEADERS = new String[]{"HASH", "NAME", "DATE", "SHORT CONTENT "};
+    private static final String[] SINGLE_HEADERS = new String[]{"HASH", "NAME ", "DATE"};
 
-    public String formatOutputList(List<Note> notes) {
-        StringBuilder result = new StringBuilder();
-        result.append("| N ").append(HEADER).append(" SHORT CONTENT |\n\n");
+    public void printList(List<Note> notes) {
 
-        final int[] i = {1};
-        notes.forEach(n -> {
-            String content = n.getContent();
-            int subContentEnd = Math.min(content.length(), 5);
+        String[][] data = new String[notes.size()][4];
 
-            result.append(i[0]).append(". | ").append(n.getHash(), 0, 5)
-                    .append(" | ").append(n.getName()).append(" | ").append(n.getCreated().toString(), 0, 16)
-                    .append(" | ").append(n.getContent().replace("\n", " "), 0, subContentEnd).append("\n");
-            i[0]++;
-        });
+        for (int i = 0; i < notes.size(); i++) {
+            Note note = notes.get(i);
+            int subContentEnd = Math.min(note.getContent().length(), 12);
 
-        return result.toString();
+            data[i][0] = note.getHash().substring(0, 5);
+            data[i][1] = note.getName();
+            data[i][2] = note.getCreated().toString();
+            data[i][3] = (note.getContent().substring(0, subContentEnd)).replace("\n", "");
+        }
+
+        TextTable table = new TextTable(LIST_HEADERS, data);
+        table.setAddRowNumbering(true);
+
+        table.printTable();
     }
 
-    public String format(Note note) {
-        return new StringBuilder().append(HEADER).append("\n| ")
-                .append(note.getHash(), 0, 5).append(" | ")
-                .append(note.getName()).append(" | ")
-                .append(note.getCreated().toString(), 0, 16).append(" |\n\n")
-                .append(note.getContent()).toString();
+    public void printNote(Note note) {
+        final String[][] data = new String[1][3];
+
+        data[0][0] = note.getHash();
+        data[0][1] = note.getName();
+        data[0][2] = note.getCreated().toString();
+
+        new TextTable(SINGLE_HEADERS, data).printTable();
+
+        System.out.println("\n\n" + note.getContent());
     }
 }

@@ -29,7 +29,9 @@ public class Main {
         options.addOption(RENAME_LAST_NOTE.toOption());
         options.addOption(APPEND_LAST_NOTE.toOption());
         options.addOption(PRINT_LAST_NOTE.toOption());
+        options.addOption(SHOW_NOTE.toOption());
         options.addOption(DELETE_LAST_NOTE.toOption());
+        options.addOption(DELETE_NOTE.toOption());
         options.addOption(CLEAR_ALL_NOTES.toOption());
         options.addOption(NANO.toOption());
 
@@ -56,9 +58,13 @@ public class Main {
             return;
         }
 
-        // TODO: 03.10.2021 Mess
+        // TODO: 03.10.2021 Clean this mess
         if (cmd.hasOption(START_DB_SERVER.getOpt())) {
             noteService.startH2Server();
+        } else if (cmd.hasOption(DELETE_NOTE.getOpt()) && confirmAction()) {
+            noteService.delete(cmd.getOptionValue(DELETE_NOTE.getOpt()));
+        } else if (cmd.hasOption(SHOW_NOTE.getOpt())) {
+            noteFormatter.printNote(noteService.getByName(cmd.getOptionValue(SHOW_NOTE.getOpt())));
         } else if (cmd.hasOption(NANO.getOpt()) && !cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && !cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
             noteService.createNew(getNanoContentInput());
         } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt())) {
@@ -66,9 +72,9 @@ public class Main {
         } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && cmd.hasOption(NANO.getOpt())) {
             noteService.appendToLast(getNanoContentInput());
         } else if (cmd.hasOption(NOTE_LIST.getOpt())) {
-            System.out.println(noteFormatter.formatOutputList(noteService.getAll()));
+            noteFormatter.printList(noteService.getAll());
         } else if (cmd.hasOption(PRINT_LAST_NOTE.getOpt())) {
-            System.out.println(noteFormatter.format(noteService.getLast()));
+            noteFormatter.printNote(noteService.getLast());
         } else if (cmd.hasOption(HELP.getOpt())) {
             printHelp();
         } else if (cmd.hasOption(RENAME_LAST_NOTE.getOpt())) {
@@ -109,8 +115,8 @@ public class Main {
     }
 
     private static void printHelp() {
-        helpFormatter.printHelp(" ", options);
-        System.out.println("Run QNC without arguments to create new note");
+        helpFormatter.printHelp("qnc", "", options,
+                "\nRun QNC without arguments to create new note\nPlease report issues at https://github.com/DeMmAge/QuickNoteCLI/issues/new");
     }
 
     private static void createNewNote() {
