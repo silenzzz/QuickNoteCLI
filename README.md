@@ -39,6 +39,10 @@ Run QNC without arguments to create new note
 Please report issues at https://github.com/DeMmAge/QuickNoteCLI/issues/new
 ```
 
+<details>
+<summary><b>Examples</b></summary>
+<!-- MarkdownTOC -->
+
 ### Examples
 
 Write **NE** on new line to save note.
@@ -158,6 +162,8 @@ Just write your text in editor, press `CTRL + X`, press `Y`, and press `ENTER`.
 ^G Get Help      ^O Write Out     ^W Where Is      ^K Cut Text      ^J Justify       ^C Cur Pos       ^Y Prev Page     M-\ First Line   M-W WhereIs Next ^^ Mark Text     M-} Indent Text  M-U Undo         ^B Back          M-Space Prev Word^A Home
 ^X Exit          ^R Read File     ^\ Replace       ^U Uncut Text    ^T To Spell      ^_ Go To Line    ^V Next Page     M-/ Last Line    M-] To Bracket   M-^ Copy Text    M-{ Unindent TextM-E Redo         ^F Forward       ^Space Next Word ^E End
 ```
+<!-- /MarkdownTOC -->
+</details>
 
 ## Installation
 
