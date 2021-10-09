@@ -9,7 +9,7 @@
   * [Examples](#Examples)
 * [Installation](#Installation)
   * TODO
-  * [Build and install via Maven](#Build and install via Maven)
+  * [Build and install via Maven](#Build-and-install-via-Maven)
 
 <!-- /MarkdownTOC -->
 </details>
