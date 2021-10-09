@@ -83,22 +83,10 @@ public class NoteService {
         }
     }
 
-    public Note getByName(Object o) {
+    public Note getByName(String name) {
         try {
             if (emptyNotes()) {
                 return EMPTY_NOTE;
-            }
-
-            String name;
-            if (o instanceof String) {
-                name = (String) o;
-            } else {
-                List<Note> notes = dao.getAllNotes();
-                int index = ((int) o) - 1;
-                if (!notes.contains(notes.get(index))) {
-                    return EMPTY_NOTE;
-                }
-                name = notes.get(index).getName();
             }
 
             return dao.getNoteByName(name);
@@ -108,19 +96,8 @@ public class NoteService {
         return null;
     }
 
-    public void delete(Object o) {
+    public void delete(String name) {
         try {
-            String name;
-            if (o instanceof String) {
-                name = (String) o;
-            } else {
-                List<Note> notes = dao.getAllNotes();
-                int index = ((int) o) - 1;
-                if (!notes.contains(notes.get(index))) {
-                    return;
-                }
-                name = notes.get(index).getName();
-            }
             dao.deleteNote(name);
         } catch (Exception e) {
             printError(e);

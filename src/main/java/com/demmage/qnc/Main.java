@@ -115,7 +115,7 @@ public class Main {
     }
 
     private static void printHelp() {
-        helpFormatter.printHelp("qnc", "", options,
+        helpFormatter.printHelp("QNC", "", options,
                 "\nRun QNC without arguments to create new note\nPlease report issues at https://github.com/DeMmAge/QuickNoteCLI/issues/new");
     }
 
