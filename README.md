@@ -39,11 +39,11 @@ Run QNC without arguments to create new note
 Please report issues at https://github.com/DeMmAge/QuickNoteCLI/issues/new
 ```
 
+### Examples
+
 <details>
 <summary><b>Examples</b></summary>
 <!-- MarkdownTOC -->
-
-### Examples
 
 Write **NE** on new line to save note.
 
@@ -52,7 +52,7 @@ Write **NE** on new line to save note.
 ```shell
 QNC --name shoppint_list
 Start typing text. To save write NE on new line
-Tomatos 5x
+Tomatoes 5x
 Beer 15x
 NE
 ```
