@@ -99,7 +99,7 @@ public class NoteDAO {
 
                 String[] columnLabels = new String[columnCount];
                 for (int i = 0; i < columnCount; i++) {
-                    columnLabels[i] = resultMeta.getColumnLabel(i + 1).toLowerCase(Locale.ROOT); // TODO: 03.10.2021 Think about lower case
+                    columnLabels[i] = resultMeta.getColumnLabel(i + 1).toLowerCase(Locale.ROOT);
                 }
 
                 List<Map<String, Object>> result = new ArrayList<>();

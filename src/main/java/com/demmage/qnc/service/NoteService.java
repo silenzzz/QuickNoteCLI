@@ -9,14 +9,13 @@ import com.demmage.qnc.util.HashCalculator;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 public class NoteService {
 
     private final NoteDAO dao;
     private final HashCalculator hashCalc = new HashCalculator();
     private final DefaultNameGenerator nameGenerator = new DefaultNameGenerator();
-
-    private static final Note EMPTY_NOTE = new Note("", "", Timestamp.from(Instant.now()), "     ");
 
     private Note lastCached;
 
@@ -33,13 +32,9 @@ public class NoteService {
     }
 
     private void create(String name, String content) {
-        try {
-            Note note = new Note(name == null ? nameGenerator.generate() : name, content, Timestamp.from(Instant.now()), hashCalc.calculateMd5(content));
-            dao.createNewNote(note);
-            lastCached = note;
-        } catch (Exception e) {
-            printError(e);
-        }
+        Note note = new Note(name == null ? nameGenerator.generate() : name, content, Timestamp.from(Instant.now()), hashCalc.calculateMd5(content));
+        dao.createNewNote(note);
+        lastCached = note;
     }
 
     private boolean isNotesTableEmpty() {
@@ -47,105 +42,59 @@ public class NoteService {
     }
 
     public void deleteAll() {
-        try {
-            dao.deleteAllNotes();
-        } catch (Exception e) {
-            printError(e);
-        }
+        dao.deleteAllNotes();
     }
 
     public Note getLast() {
-        try {
-            if (emptyNotes()) {
-                return EMPTY_NOTE;
-            }
-
-            if (lastCached == null) {
-                lastCached = dao.getLastNote();
-            }
-            return lastCached;
-        } catch (Exception e) {
-            printError(e);
-        }
-        return null;
+        validateCache();
+        return lastCached;
     }
 
     public void deleteLast() {
-        try {
-            dao.deleteNote(dao.getLastNote().getName());
-            if (isNotesTableEmpty()) {
-                lastCached = null;
-            } else {
-                lastCached = dao.getLastNote();
-            }
-        } catch (Exception e) {
-            printError(e);
+        dao.deleteNote(dao.getLastNote().getName());
+
+        if (isNotesTableEmpty()) {
+            lastCached = null;
+        } else {
+            lastCached = dao.getLastNote();
         }
     }
 
     public Note getByName(String name) {
-        try {
-            if (emptyNotes()) {
-                return EMPTY_NOTE;
-            }
-
-            return dao.getNoteByName(name);
-        } catch (Exception e) {
-            printError(e);
-        }
-        return null;
+        return dao.getNoteByName(name);
     }
 
     public void delete(String name) {
-        try {
-            dao.deleteNote(name);
-        } catch (Exception e) {
-            printError(e);
-        }
+        dao.deleteNote(name);
     }
 
     public void appendToLast(String appendedContent) {
-        try {
-            if (lastCached == null) {
-                lastCached = dao.getLastNote();
-            }
+        validateCache();
 
-            final String content = lastCached.getContent() + "\n" + appendedContent;
-            final String hash = hashCalc.calculateMd5(content);
+        final String content = lastCached.getContent() + "\n" + appendedContent;
+        final String hash = hashCalc.calculateMd5(content);
 
-            lastCached.setContent(content);
-            lastCached.setHash(hash);
+        lastCached.setContent(content);
+        lastCached.setHash(hash);
 
-            dao.appendLastNote(appendedContent, hash);
-        } catch (Exception e) {
-            printError(e);
-        }
-    }
-
-    private boolean emptyNotes() {
-        return isNotesTableEmpty();
+        dao.appendLastNote(appendedContent, hash);
     }
 
     public void renameLast(String newName) {
-        try {
-            if (lastCached == null) {
-                lastCached = dao.getLastNote();
-            }
+        validateCache();
 
-            lastCached.setName(newName);
-            dao.renameLastNote(newName);
-        } catch (Exception e) {
-            printError(e);
+        lastCached.setName(newName);
+        dao.renameLastNote(newName);
+    }
+
+    private void validateCache() {
+        if (lastCached == null) {
+            lastCached = dao.getLastNote();
         }
     }
 
     public List<Note> getAll() {
-        try {
-            return dao.getAllNotes();
-        } catch (Exception e) {
-            printError(e);
-        }
-        return null; //NOSONAR
+        return dao.getAllNotes();
     }
 
     public int getAllNotesCount() {
@@ -153,15 +102,6 @@ public class NoteService {
     }
 
     public void startH2Server() {
-        try {
-            dao.startH2Server();
-        } catch (Exception e) {
-            printError(e);
-        }
-    }
-
-    private void printError(Exception e) {
-        System.out.println(e.getMessage());
-        System.exit(1);
+        dao.startH2Server();
     }
 }

@@ -41,6 +41,7 @@ public class Main {
         options.addOption(START_DB_SERVER.toOption());
 
         options.addOption(HELP.toOption());
+        options.addOption(ABOUT.toOption());
     }
 
     public static void main(String[] args) throws ParseException {
@@ -58,46 +59,58 @@ public class Main {
             return;
         }
 
-        // TODO: 03.10.2021 Clean this mess
-        if (cmd.hasOption(START_DB_SERVER.getOpt())) {
-            noteService.startH2Server();
-        } else if (cmd.hasOption(DELETE_NOTE.getOpt()) && confirmAction()) {
-            noteService.delete(cmd.getOptionValue(DELETE_NOTE.getOpt()));
-        } else if (cmd.hasOption(SHOW_NOTE.getOpt())) {
-            noteFormatter.printNote(noteService.getByName(cmd.getOptionValue(SHOW_NOTE.getOpt())));
-        } else if (cmd.hasOption(NANO.getOpt()) && !cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && !cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
-            noteService.createNew(getNanoContentInput());
-        } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt())) {
-            noteService.appendToLast(getNoteContentInput());
-        } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && cmd.hasOption(NANO.getOpt())) {
-            noteService.appendToLast(getNanoContentInput());
-        } else if (cmd.hasOption(NOTE_LIST.getOpt())) {
-            noteFormatter.printList(noteService.getAll());
-        } else if (cmd.hasOption(PRINT_LAST_NOTE.getOpt())) {
-            noteFormatter.printNote(noteService.getLast());
-        } else if (cmd.hasOption(HELP.getOpt())) {
-            printHelp();
-        } else if (cmd.hasOption(RENAME_LAST_NOTE.getOpt())) {
-            noteService.renameLast(cmd.getOptionValue(RENAME_LAST_NOTE.getOpt()));
-        } else if (cmd.hasOption(DELETE_LAST_NOTE.getOpt()) && confirmAction()) {
-            noteService.deleteLast();
-        } else if (cmd.hasOption(CLEAR_ALL_NOTES.getOpt()) && confirmAction()) {
-            noteService.deleteAll();
-        } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt()) && cmd.hasOption(NANO.getOpt())) {
-            String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
-            String content = getNanoContentInput();
-            noteService.createNew(name, content);
-        } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
-            String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
-            String content = getNoteContentInput();
-            noteService.createNew(name, content);
-        } else if (cmd.hasOption(ABOUT.getOpt())) {
-            printAbout();
+        try {
+            // TODO: 03.10.2021 Clean this mess
+            if (cmd.hasOption(START_DB_SERVER.getOpt())) {
+                noteService.startH2Server();
+            } else if (cmd.hasOption(DELETE_NOTE.getOpt()) && confirmAction()) {
+                noteService.delete(cmd.getOptionValue(DELETE_NOTE.getOpt()));
+            } else if (cmd.hasOption(SHOW_NOTE.getOpt())) {
+                noteFormatter.printNote(noteService.getByName(cmd.getOptionValue(SHOW_NOTE.getOpt())));
+            } else if (cmd.hasOption(NANO.getOpt()) && !cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && !cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
+                noteService.createNew(getNanoContentInput());
+            } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt())) {
+                noteService.appendToLast(getNoteContentInput());
+            } else if (cmd.hasOption(APPEND_LAST_NOTE.getOpt()) && cmd.hasOption(NANO.getOpt())) {
+                noteService.appendToLast(getNanoContentInput());
+            } else if (cmd.hasOption(NOTE_LIST.getOpt())) {
+                noteFormatter.printList(noteService.getAll());
+            } else if (cmd.hasOption(PRINT_LAST_NOTE.getOpt())) {
+                noteFormatter.printNote(noteService.getLast());
+            } else if (cmd.hasOption(HELP.getOpt())) {
+                printHelp();
+            } else if (cmd.hasOption(RENAME_LAST_NOTE.getOpt())) {
+                noteService.renameLast(cmd.getOptionValue(RENAME_LAST_NOTE.getOpt()));
+            } else if (cmd.hasOption(DELETE_LAST_NOTE.getOpt()) && confirmAction()) {
+                noteService.deleteLast();
+            } else if (cmd.hasOption(CLEAR_ALL_NOTES.getOpt()) && confirmAction()) {
+                noteService.deleteAll();
+            } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt()) && cmd.hasOption(NANO.getOpt())) {
+                String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
+                String content = getNanoContentInput();
+                noteService.createNew(name, content);
+            } else if (cmd.hasOption(NEW_NOTE_NAME.getOpt())) {
+                String name = cmd.getOptionValue(NEW_NOTE_NAME.getOpt());
+                String content = getNoteContentInput();
+                noteService.createNew(name, content);
+            } else if (cmd.hasOption(ABOUT.getOpt())) {
+                printAbout();
+            }
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Note not found");
+        } catch (Exception e) {
+            printError(e);
         }
     }
 
     private static void printAbout() {
-        // TODO: 03.10.2021
+        // TODO: 14.10.2021
+        System.out.printf("QNC v%s\nCreated by DeMmAge\nhttps://github.com/DeMmAge/QuickNoteCLI\n", "0.1.0");
+    }
+
+    private static void printError(Exception e) {
+        System.out.println(e.getMessage());
     }
 
     private static String getNanoContentInput() {

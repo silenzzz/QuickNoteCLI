@@ -110,4 +110,10 @@ class NoteDAOTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
+    @Test
+    @Order(8)
+    void shouldReturnNoteByName() {
+        Assertions.assertNotNull(noteDao.getNoteByName("RENAMED NOTE"));
+    }
 }

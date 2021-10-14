@@ -21,7 +21,7 @@ public enum CmdArgs {
     NANO("N", "nano", "Open in nano editor (If installed)", false),
 
     HELP("h", "help", "Print help", false),
-    ABOUT("a", "about", "About", false),
+    ABOUT("A", "about", "About", false),
 
     START_DB_SERVER("S", "dbs", "Start DB server", false);
 
