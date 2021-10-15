@@ -1,8 +1,10 @@
-@ECHO OFF
+@echo off
 
-SET dir=C:\Users\%USERNAME%\DeMmAgeSoft
+start build.bat
 
-IF exist %dir% ( goto Exists ) ELSE ( goto NotExists )
+set dir=C:\Users\%USERNAME%\DeMmAgeSoft
+
+if exist %dir% ( goto Exists ) ELSE ( goto NotExists )
 
 :NotExists
 echo Creating directories...
@@ -11,13 +13,13 @@ MKDIR %dir%
 :Exists
 
 echo Copying files...
-COPY /Y ..\target\QNC*.jar %dir%\QNC*.jar
-COPY /Y .\util\QNC.bat %dir%\QNC.bat
+copy /Y ..\target\QNC*.jar %dir%\QNC*.jar
+copy /Y .\util\QNC.bat %dir%\QNC.bat
 
 echo Adding to PATH...
 Powershell.exe -File .\util\AddToPath.ps1 %dir%
 
-IF %ERRORLEVEL% NEQ 0 ( goto Error ) ELSE ( goto Success )
+if %ERRORLEVEL% NEQ 0 ( goto Error ) ELSE ( goto Success )
 
 :Error
 echo ERROR OCCURRED DURING INSTALLATION

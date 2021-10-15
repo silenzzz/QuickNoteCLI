@@ -1,15 +1,22 @@
 #!/bin/sh
 
+chmod +x "build.sh"
+./build.sh
+
 dir="$HOME/DeMmAgeSoft"
 
-if [ ! -d "$dir" ]
-then
+if [ ! -d "$dir" ]; then
+  echo "Creating directories..."
   mkdir "$dir"
 fi
 
-cp "../target/QNC*.jar" "$dir/QNC*.jar"
+echo "Copying files..."
+find .. -name "QNC*.jar" -exec cp {} "$dir" \;
 cp "./util/QNC.sh" "$dir/QNC.sh"
 
-PATH=$PATH:~$dir
+if [[ ! "$PATH" =~ $dir ]]; then
+  echo Adding to PATH...
+  PATH=$PATH:~$dir
+fi
 
-echo "Installation complete"
+echo "INSTALLATION SUCCESSFUL"
