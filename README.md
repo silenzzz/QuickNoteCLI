@@ -194,7 +194,7 @@ install.bat
 __UNIX:__
 
 ```shell
-cd dist/
+cd dist
 ./build.sh
 ./install.sh
 ```
