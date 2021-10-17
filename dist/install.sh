@@ -8,14 +8,14 @@ if [ ! -d "$dir" ]; then
 fi
 
 echo "Copying files..."
-find . -name "QNC*.jar" -exec cp {} "$dir" \;
-find .. -name "QNC*.jar" -exec cp {} "$dir" \;
-cp "./util/QNC.sh" "$dir/QNC.sh"
+find . -name "QNC*.jar" -exec cp {} "/usr/local/bin" \;
+find .. -name "QNC*.jar" -exec cp {} "/usr/local/bin" \;
+cp "./util/QNC.sh" "/usr/local/bin/QNC.sh"
 
-export DEMMAGESOFT_HOME=$dir
-case ":$PATH:" in
-  *:$dir*) echo Already in PATH;;
-  *) PATH=$PATH:$DEMMAGESOFT_HOME;;
-esac
+#export DEMMAGESOFT_HOME=$dir
+#case ":$PATH:" in
+#  *:$dir*) echo Already in PATH;;
+#  *) PATH=$PATH:$DEMMAGESOFT_HOME;;
+#esac
 
 echo "INSTALLATION SUCCESSFUL"
