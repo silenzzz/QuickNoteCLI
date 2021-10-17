@@ -14,7 +14,7 @@ cp "./util/QNC.sh" "$dir/QNC.sh"
 
 case ":$PATH:" in
   *:$dir*) echo Already in PATH;;
-  *) export PATH=$PATH:~$dir;;
+  *) PATH=$PATH:$dir;;
 esac
 
 echo "INSTALLATION SUCCESSFUL"
