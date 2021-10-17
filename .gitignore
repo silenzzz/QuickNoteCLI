@@ -10,6 +10,7 @@ scripts/garbage/
 cwebp_tmp/
 out/
 signing/*
+stuff/
 
 ### STS ###
 .apt_generated

@@ -8,11 +8,13 @@ if [ ! -d "$dir" ]; then
 fi
 
 echo "Copying files..."
+find . -name "QNC*.jar" -exec cp {} "$dir" \;
 find .. -name "QNC*.jar" -exec cp {} "$dir" \;
 cp "./util/QNC.sh" "$dir/QNC.sh"
 
-if [[ ! "$PATH" =~ $dir ]]; then
-  PATH=$PATH:~$dir
-fi
+case ":$PATH:" in
+  *:$dir*) echo Already in PATH;;
+  *) export PATH=$PATH:~$dir;;
+esac
 
 echo "INSTALLATION SUCCESSFUL"
