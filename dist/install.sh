@@ -12,9 +12,10 @@ find . -name "QNC*.jar" -exec cp {} "$dir" \;
 find .. -name "QNC*.jar" -exec cp {} "$dir" \;
 cp "./util/QNC.sh" "$dir/QNC.sh"
 
+export DEMMAGESOFT_HOME=$dir
 case ":$PATH:" in
   *:$dir*) echo Already in PATH;;
-  *) PATH=$PATH:$dir;;
+  *) PATH=$PATH:$DEMMAGESOFT_HOME;;
 esac
 
 echo "INSTALLATION SUCCESSFUL"
