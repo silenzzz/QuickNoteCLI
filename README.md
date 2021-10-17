@@ -8,8 +8,7 @@
     * [Usage](#Usage)
     * [Examples](#Examples)
 * [Installation](#Installation)
-    * TODO
-    * [Build and install via Maven](#Build-and-install-via-Maven)
+    * [Build and install via Maven](#Build-and-Install-via-Maven)
 
 <!-- /MarkdownTOC -->
 </details>
@@ -177,9 +176,7 @@ QNC --name note_in_nano! -N
 
 ## Installation
 
-### Install via
-
-### Build and install via Maven
+### Build and Install via Maven
 
 **Requirements**:
 
@@ -189,7 +186,7 @@ QNC --name note_in_nano! -N
 __Windows:__
 
 ```bat
-cd dist/
+cd dist
 build.bat
 install.bat
 ```
@@ -198,6 +195,6 @@ __UNIX:__
 
 ```shell
 cd dist/
-build.sh
-install.sh
+./build.sh
+./install.sh
 ```

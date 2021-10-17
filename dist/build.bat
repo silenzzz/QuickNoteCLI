@@ -1,3 +1,3 @@
-@ECHO OFF
-CD ..
+@echo off
+cd ..
 mvn clean package

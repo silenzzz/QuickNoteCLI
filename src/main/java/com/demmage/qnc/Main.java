@@ -1,5 +1,6 @@
 package com.demmage.qnc;
 
+import com.demmage.qnc.cli.ActionsFactory;
 import com.demmage.qnc.editor.Editor;
 import com.demmage.qnc.editor.NanoEditor;
 import com.demmage.qnc.format.NoteOutputFormatter;
@@ -21,6 +22,8 @@ public class Main {
 
     private static final NoteOutputFormatter noteFormatter = new NoteOutputFormatter();
     private static final HelpFormatter helpFormatter = new HelpFormatter();
+
+    private static final ActionsFactory actionsFactory = new ActionsFactory();
 
     private static final Scanner input = new Scanner(System.in);
 
@@ -105,7 +108,7 @@ public class Main {
     }
 
     private static void printAbout() {
-        // TODO: 14.10.2021
+        // TODO: 14.10.2021 version
         System.out.printf("QNC v%s\nCreated by DeMmAge\nhttps://github.com/DeMmAge/QuickNoteCLI\n", "0.1.0");
     }
 
