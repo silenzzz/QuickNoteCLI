@@ -180,7 +180,7 @@ QNC --name note_in_nano! -N
 
 **Requirements**:
 
-* [Maven)](https://maven.apache.org/download.cgi)
+* [Maven)](https://maven.apache.org/download.cgi
 * [Java 8+](https://javadl.oracle.com/webapps/download/AutoDL?BundleId=245476_4d5417147a92418ea8b615e228bb6935)
 
 __Windows:__
