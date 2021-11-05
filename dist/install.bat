@@ -21,12 +21,10 @@ if %ERRORLEVEL% NEQ 0 ( goto Error ) ELSE ( goto Success )
 
 :Error
 echo ERROR OCCURRED DURING INSTALLATION
-pause
 exit /b 1
 
 :Success
 echo INSTALLATION SUCCESSFUL
-pause
 exit /b 0
 
 ::todo Short instruction

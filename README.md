@@ -196,5 +196,5 @@ __UNIX:__
 ```shell
 cd dist
 ./build.sh
-./install.sh
 ```
+__Install not implemented yet__
