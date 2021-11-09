@@ -10,5 +10,6 @@ fi
 echo "Copying files..."
 find . -name "QNC*.jar" -exec sudo cp {} "/usr/local/bin/DeMmAgeSoftInc" \;
 sudo cp "./util/QNC.sh" "/usr/local/bin/DeMmAgeSoftInc/QNC.sh"
+alias qnc="java -jar /usr/local/bin/DeMmAgeSoftInc/QNC-0.1.0.jar"
 
 echo "INSTALLATION SUCCESSFUL"
