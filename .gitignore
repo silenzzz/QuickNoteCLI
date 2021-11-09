@@ -11,8 +11,6 @@ cwebp_tmp/
 out/
 signing/*
 stuff/
-install.sh
-
 ### STS ###
 .apt_generated
 .classpath
