@@ -20,7 +20,7 @@ stuff/
 .springBeans
 .sts4-cache
 .mvn/
-!.mvn/wrapper/*
+!.mvn/wrapper/
 
 ### IntelliJ IDEA ###
 .idea/
