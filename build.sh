@@ -1,3 +1,2 @@
 #!/bin/sh
-cd ..
-mvnw clean package
+./mvnw clean package

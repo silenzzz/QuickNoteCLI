@@ -176,25 +176,21 @@ QNC --name note_in_nano! -N
 
 ## Installation
 
-### Build and Install via Maven
+### Build via Maven
 
 **Requirements**:
 
-* [Maven](https://maven.apache.org/download.cgi)
 * [Java 8+](https://javadl.oracle.com/webapps/download/AutoDL?BundleId=245476_4d5417147a92418ea8b615e228bb6935)
 
 __Windows:__
 
 ```bat
-cd dist
 build.bat
-install.bat
 ```
 
 __UNIX:__
 
 ```shell
-cd dist
 ./build.sh
 ```
 __UNIX Installation not implemented yet__
