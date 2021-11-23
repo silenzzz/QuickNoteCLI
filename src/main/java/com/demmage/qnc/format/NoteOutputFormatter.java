@@ -1,6 +1,6 @@
 package com.demmage.qnc.format;
 
-import com.demmage.qnc.domain.Note;
+import com.demmage.qnc.actions.Note;
 import dnl.utils.text.table.TextTable;
 
 import java.util.List;

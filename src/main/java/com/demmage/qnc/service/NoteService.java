@@ -1,7 +1,7 @@
 package com.demmage.qnc.service;
 
+import com.demmage.qnc.actions.Note;
 import com.demmage.qnc.dao.NoteDAO;
-import com.demmage.qnc.domain.Note;
 import com.demmage.qnc.parser.connection.ConnectionPropertiesParser;
 import com.demmage.qnc.util.DefaultNameGenerator;
 import com.demmage.qnc.util.HashCalculator;
@@ -9,7 +9,6 @@ import com.demmage.qnc.util.HashCalculator;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 public class NoteService {
 

@@ -1,6 +1,6 @@
 package com.demmage.qnc.dao;
 
-import com.demmage.qnc.domain.Note;
+import com.demmage.qnc.actions.Note;
 import com.demmage.qnc.parser.connection.ConnectionProperties;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.*;

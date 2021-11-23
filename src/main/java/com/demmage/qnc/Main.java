@@ -1,6 +1,6 @@
 package com.demmage.qnc;
 
-import com.demmage.qnc.cli.ActionsFactory;
+import com.demmage.qnc.args.CmdArgs;
 import com.demmage.qnc.editor.Editor;
 import com.demmage.qnc.editor.NanoEditor;
 import com.demmage.qnc.format.NoteOutputFormatter;
@@ -23,28 +23,14 @@ public class Main {
     private static final NoteOutputFormatter noteFormatter = new NoteOutputFormatter();
     private static final HelpFormatter helpFormatter = new HelpFormatter();
 
-    private static final ActionsFactory actionsFactory = new ActionsFactory();
+    //private static final ActionsFactory actionsFactory = new ActionsFactory();
 
     private static final Scanner input = new Scanner(System.in);
 
     static {
-        options.addOption(NEW_NOTE_NAME.toOption());
-        options.addOption(RENAME_LAST_NOTE.toOption());
-        options.addOption(APPEND_LAST_NOTE.toOption());
-        options.addOption(PRINT_LAST_NOTE.toOption());
-        options.addOption(SHOW_NOTE.toOption());
-        options.addOption(DELETE_LAST_NOTE.toOption());
-        options.addOption(DELETE_NOTE.toOption());
-        options.addOption(CLEAR_ALL_NOTES.toOption());
-        options.addOption(NANO.toOption());
-
-        options.addOption(NOTE_LIST.toOption());
-        //options.addOption(INTERACTIVE_LIST.toOption());
-
-        options.addOption(START_DB_SERVER.toOption());
-
-        options.addOption(HELP.toOption());
-        options.addOption(ABOUT.toOption());
+        for (CmdArgs arg : CmdArgs.values()) {
+            options.addOption(arg.toOption());
+        }
     }
 
     public static void main(String[] args) throws ParseException {

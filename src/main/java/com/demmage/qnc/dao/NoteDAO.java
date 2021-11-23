@@ -1,9 +1,9 @@
 package com.demmage.qnc.dao;
 
+import com.demmage.qnc.actions.Note;
 import com.demmage.qnc.dao.exception.DaoException;
 import com.demmage.qnc.dao.exception.NoteNotFoundException;
 import com.demmage.qnc.dao.exception.RequestUnsupportedParamException;
-import com.demmage.qnc.domain.Note;
 import com.demmage.qnc.parser.connection.ConnectionProperties;
 import com.demmage.qnc.service.SQLScriptService;
 import lombok.Cleanup;

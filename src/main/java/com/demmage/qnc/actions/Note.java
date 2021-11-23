@@ -1,4 +1,4 @@
-package com.demmage.qnc.domain;
+package com.demmage.qnc.actions;
 
 import lombok.Data;
 
